@@ -3,7 +3,9 @@
 // load modules
 var express = require('express');
 var morgan = require('morgan');
-
+const initRestApi = require('./api/api')
+const bodyParser = require('body-parser')
+const initMongoDb = require('./db/db')
 var app = express();
 
 // set our port
@@ -11,12 +13,19 @@ app.set('port', process.env.PORT || 5000);
 
 // morgan gives us http request logging
 app.use(morgan('dev'));
-
+app.use(bodyParser.json())
 // setup our static route to serve files from the "public" folder
 app.use('/', express.static('public'));
 
+
+// initialize mongodb
+initMongoDb()
+
+// initialze api routes
+initRestApi(app)
+
 // catch 404 and forward to global error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('File Not Found');
   err.status = 404;
   next(err);
