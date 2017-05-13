@@ -3,7 +3,7 @@
 // load modules
 var express = require('express');
 var morgan = require('morgan');
-const initRestApi = require('./api/api')
+const initRestApi = require('./api/initApi')
 const bodyParser = require('body-parser')
 const initMongoDb = require('./db/db')
 var app = express();

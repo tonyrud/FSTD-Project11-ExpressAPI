@@ -41,10 +41,7 @@ var CourseSchema = new Schema({
     //Array of ObjectId values from reviews collection
 });
 
-const User = mongoose.model('User', UserSchema)
-const Course = mongoose.model('Course', CourseSchema)
-const Review = mongoose.model('Review', ReviewSchema)
-module.exports = User
-module.exports = Course
-module.exports = Review
+module.exports.User = mongoose.model('User', UserSchema)
+module.exports.Course = mongoose.model('Course', CourseSchema)
+module.exports.Review = mongoose.model('Review', ReviewSchema)
 
