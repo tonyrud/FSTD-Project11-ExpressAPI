@@ -3,17 +3,20 @@
 // load modules
 var express = require('express');
 var morgan = require('morgan');
-const initRestApi = require('./api/initApi')
 const bodyParser = require('body-parser')
 const initMongoDb = require('./db/db')
 var app = express();
 
+// Get API routes
+const apiRoutes = require('./api/api.routes')
 // set our port
 app.set('port', process.env.PORT || 5000);
 
 // morgan gives us http request logging
 app.use(morgan('dev'));
-app.use(bodyParser.json())
+// Parsers for POST data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 // setup our static route to serve files from the "public" folder
 app.use('/', express.static('public'));
 
@@ -22,8 +25,13 @@ app.use('/', express.static('public'));
 initMongoDb()
 
 // initialze api routes
-initRestApi(app)
+app.use('/api', apiRoutes)
+// api(app)
 
+// Home route
+app.get('/', (req, res, next) => {
+  res.status(201).send()
+});
 // catch 404 and forward to global error handler
 app.use(function (req, res, next) {
   var err = new Error('File Not Found');
@@ -34,11 +42,13 @@ app.use(function (req, res, next) {
 // Express's global error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  res.json({
+    error: {
+      message: err.message
+    }
+  })
 });
+
 
 // start listening on our port
 var server = app.listen(app.get('port'), function() {

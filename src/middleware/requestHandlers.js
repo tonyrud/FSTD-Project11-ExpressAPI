@@ -1,5 +1,5 @@
-function onSuccess (res, data) {
-  return res.status(200).json({payload: data})
+function onSuccess (res, data, status) {
+  return res.status(status).json({payload: data})
 }
 
 function onError (res, message, err) {

@@ -18,6 +18,7 @@ function initMongoDb () {
 function seedData () {
   seeder.seed(data).then(function (dbData) {
       // The database objects are stored in dbData
+    console.log('data seeded')
   }).catch(function (err) {
       // handle error
     console.error('seed error: ', err.errors)
