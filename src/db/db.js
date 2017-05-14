@@ -3,7 +3,7 @@ const dbPort = 27017
 const seeder = require('mongoose-seeder')
 const data = require('./../data/data.json')
 
-
+mongoose.Promise = global.Promise
 function initMongoDb () {
   // mongodb connection
   mongoose.connect(`mongodb://localhost:${dbPort}/course-rating-api`)

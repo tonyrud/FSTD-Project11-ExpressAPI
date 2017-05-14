@@ -1,9 +1,11 @@
-function onSuccess (res, data, next) {
-  // console.log('ONSUCCESS', data)
-  console.log('SUCCESS!', data)
-  res.status(200)
-  // return res.status(200).json({payload: data})
-  next()
+function onSuccess (res, data, status) {
+  return res.status(status).json({payload: data})
+}
+
+function onSuccessPost (res, data, status) {
+  res.status(status);
+  res.location('/');
+  res.end();
 }
 
 function onError (res, message, err) {
@@ -11,5 +13,28 @@ function onError (res, message, err) {
   res.status(500).send()
 }
 
+function authenticate(req, res, next){
+  var credentials = auth(req);
+  if (!credentials) {
+    var err = new Error('Email or password not provided.');
+    err.status = 401;
+    return next(err);
+  } else {
+    User.authenticate(credentials.name, credentials.pass, function (err, user){
+      if (err || !user) {
+        var err = new Error('Incorrect email or password.');
+        err.status = 401;
+        return next(err);
+      } else {
+        req.data = user;
+        return next();
+      }
+    });
+  }
+}
+
 module.exports.onSuccess = onSuccess
+module.exports.onSuccessPost = onSuccessPost
 module.exports.onError = onError
+module.exports.authenticate = authenticate
+

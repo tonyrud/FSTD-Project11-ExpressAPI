@@ -15,7 +15,6 @@ const CourseSchema = new Schema({
     }
   ],
   reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}]
-    // Array of ObjectId values from reviews collection
 })
 
 module.exports = CourseSchema
