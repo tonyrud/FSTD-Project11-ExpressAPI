@@ -10,8 +10,8 @@ const CourseSchema = new Schema({
   steps: [
     {
       stepNumber: Number,
-      title: {type: String, required: [true, 'Title is required.']},
-      description: {type: String, required: [true, 'Description is required.']}
+      title: { type: String, required: [true, 'Step title is required.'] },
+      description: { type: String, required: [true, 'Step description is required.'] }
     }
   ],
   reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}]

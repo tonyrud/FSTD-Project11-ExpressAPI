@@ -9,7 +9,7 @@ function getUsers (req, res, next) {
     })
     .catch(err => {
       const errMsg = 'in GET users '
-      middleWare.onError(res, errMsg, err)
+      middleWare.onError(res, errMsg, err, next)
     })
 }
 function createUser (req, res, next) {
@@ -17,7 +17,6 @@ function createUser (req, res, next) {
     var user = new User(req.body);
     user.save()
     .then(user => {
-      // if (err) return next(err);
       middleWare.onSuccessPost(res, user, 201)
       
     })
@@ -31,7 +30,8 @@ function createUser (req, res, next) {
           err.validationMsgs.push(currentItem.message)
         }  
       }
-      next(err)
+      const errMsg = 'in POST create user '
+      middleWare.onError(res, errMsg, err, next)
     })
 }
 
