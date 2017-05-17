@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // load modules
 var express = require('express')
