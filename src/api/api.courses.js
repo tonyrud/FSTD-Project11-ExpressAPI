@@ -1,7 +1,7 @@
 const Course = require('./../models/models').Course
 const middleWare = require('./../middleware/')
 
-function getCourses(req, res, next) {
+function getCourses (req, res, next) {
   if (req.course) {
     middleWare.onSuccess(res, req.course, 201)
   } else {
@@ -16,8 +16,7 @@ function getCourses(req, res, next) {
   }
 }
 
-function createCourse(req, res, next) {
-
+function createCourse (req, res, next) {
   var course = new Course(req.body)
   course.save()
     .then(course => {
@@ -35,7 +34,21 @@ function createCourse(req, res, next) {
 }
 
 // handler for req parameters
-function findCourse(req, res, next, id) {
+function findCourse (req, res, next, id) {
+  Course.findById(id)
+    .populate('user reviews')
+    .then(doc => {
+      req.course = doc
+      return next()
+    })
+    .catch(err => {
+      const errMsg = 'in GET single course '
+      middleWare.onError(res, errMsg, err, next)
+    })
+}
+
+// handler for req parameters
+function updateCourse (req, res, next, id) {
   Course.findById(id)
     .populate('user reviews')
     .then(doc => {
@@ -51,5 +64,6 @@ function findCourse(req, res, next, id) {
 module.exports.getCourses = getCourses
 module.exports.findCourse = findCourse
 module.exports.createCourse = createCourse
+module.exports.updateCourse = updateCourse
 
 

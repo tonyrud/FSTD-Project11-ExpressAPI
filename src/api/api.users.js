@@ -2,7 +2,8 @@ const User = require('./../models/models').User
 const middleWare = require('./../middleware/')
 
 function getUsers (req, res, next) {
-  User.find()
+  const authenticatedUser = req.data.emailAddress
+  User.find({emailAddress: authenticatedUser})
     .then(users => {
       middleWare.onSuccess(res, users, 200)
     })
