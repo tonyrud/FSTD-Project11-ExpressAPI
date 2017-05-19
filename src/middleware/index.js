@@ -3,12 +3,22 @@ var auth = require('basic-auth')
 // const middleWare = require('./../middleware/index')
 
 function onSuccess (res, data, status) {
-  return res.status(status).json({ payload: data })
+  return res.status(status).json({ payload: data }).end()
 }
 
-function onSuccessPost (res, data, status) {
+function onError (res, message, err, next) {
+  console.error('Promise chain error', message, err)
+  next(err)
+}
+
+function onSuccessPost (res, data, status, req) {
   res.status(status)
-  res.location('/')
+  if (req) {
+    const path = req.params.courseId
+    res.location(`/` + path)
+  } else {
+    res.location('/')
+  }
   res.end()
 }
 
@@ -22,10 +32,6 @@ function buildErrArray (err) {
   return validationMsgs
 }
 
-function onError (res, message, err, next) {
-  console.error('Promise chain error', message, err)
-  next(err)
-}
 
 function authenticate (req, res, next) {
   const authUser = auth(req)
