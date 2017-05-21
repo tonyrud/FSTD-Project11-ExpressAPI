@@ -1,6 +1,5 @@
 const models = require('./../models/models')
 var auth = require('basic-auth')
-// const middleWare = require('./../middleware/index')
 
 function onSuccess (res, data, status) {
   return res.status(status).json({ payload: data }).end()

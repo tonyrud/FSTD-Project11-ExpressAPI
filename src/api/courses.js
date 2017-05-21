@@ -1,11 +1,12 @@
 const Course = require('./../models/models').Course
 const Review = require('./../models/models').Review
+// const User = require('./../models/models').Review
 const middleWare = require('./../middleware/')
 
 function getCourses (req, res, next) {
   // check if single course has been found
   if (req.course) {
-    middleWare.onSuccess(res, req.course, 201)
+    middleWare.onSuccess(res, [req.course], 201)
   } else {
     Course.find({}).select('_id title')
       .then(data => {
@@ -38,7 +39,12 @@ function createCourse (req, res, next) {
 // handler for req parameters
 function findCourse (req, res, next, id) {
   Course.findById(id)
-    .populate('user reviews')
+    .populate({
+      path: 'reviews user',
+      populate: {
+        path: 'user'
+      }
+    })
     .then(doc => {
       if (!doc) {
         const err = new Error('Document id not found')

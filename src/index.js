@@ -8,7 +8,7 @@ const initMongoDb = require('./db/db')
 var app = express()
 
 // Get API routes
-const apiRoutes = require('./api/api.routes')
+const apiRoutes = require('./api/api')
 // set our port
 app.set('port', process.env.PORT || 5000)
 

@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
-const apiUsers = require('./api.users')
-const apiCourses = require('./api.courses')
+const apiUsers = require('./users')
+const apiCourses = require('./courses')
 const authenticate = require('./../middleware/index').authenticate
 
 // Users endpoints
@@ -17,6 +17,5 @@ router.put('/courses/:courseId', authenticate, apiCourses.updateCourse)
 router.post('/courses/:courseId/reviews', authenticate, apiCourses.createReview)
 // handler for req parameters
 router.param('courseId', apiCourses.findCourse)
-// router.param('courseId', apiCourses.findCourse)
 
 module.exports = router
